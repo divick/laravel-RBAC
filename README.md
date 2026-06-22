@@ -1,5 +1,5 @@
-# RBAC For Laravel 5.3
-Powerful package for handling roles and permissions in Laravel 5.3
+# RBAC For Laravel 5.5 and 6.x
+Powerful package for handling roles and permissions in Laravel 5.5 and 6.x
 
 Based on the [Bican/Roles](https://github.com/romanbican/roles/) Package.
 
@@ -59,8 +59,8 @@ Pull this package in through Composer (file `composer.json`).
 ```js
 {
     "require": {
-        "php": ">=5.5.9",
-        "laravel/framework": "5.1.*",
+        "php": ">=7.1.3",
+        "laravel/framework": "^6.0",
         "nigam214/rbac": "~2.0"
     }
 }

@@ -425,14 +425,14 @@ trait HasRoleAndPermission
      */
     public function __call($method, $parameters)
     {
-        if (starts_with($method, 'roleIs')) {
-            return $this->roleIs(snake_case(substr($method, 6), config('rbac.separator')));
-        } elseif (starts_with($method, 'can')) {
-            return $this->can(snake_case(substr($method, 3), config('rbac.separator')));
-        } elseif (starts_with($method, 'allowed')) {
-            return $this->allowed(snake_case(substr($method, 7), config('rbac.separator')), $parameters[0], (isset($parameters[1])) ? $parameters[1] : true, (isset($parameters[2])) ? $parameters[2] : 'user_id');
-        } elseif (starts_with($method, 'hasRole')) {
-            return $this->hasRole(isset($parameters[0]) ? $parameters[0] : snake_case(substr($method, 7), config('rbac.separator')));
+        if (Str::startsWith($method, 'roleIs')) {
+            return $this->roleIs(Str::snake(substr($method, 6), config('rbac.separator')));
+        } elseif (Str::startsWith($method, 'can')) {
+            return $this->can(Str::snake(substr($method, 3), config('rbac.separator')));
+        } elseif (Str::startsWith($method, 'allowed')) {
+            return $this->allowed(Str::snake(substr($method, 7), config('rbac.separator')), $parameters[0], (isset($parameters[1])) ? $parameters[1] : true, (isset($parameters[2])) ? $parameters[2] : 'user_id');
+        } elseif (Str::startsWith($method, 'hasRole')) {
+            return $this->hasRole(isset($parameters[0]) ? $parameters[0] : Str::snake(substr($method, 7), config('rbac.separator')));
         }
 
         return parent::__call($method, $parameters);
