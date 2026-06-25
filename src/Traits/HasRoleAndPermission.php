@@ -193,7 +193,7 @@ trait HasRoleAndPermission
             return $role == $value->id || Str::is($role, $value->slug);
         });
     }
-    
+
     /**
      * Check if the object has a permission or permissions.
      *

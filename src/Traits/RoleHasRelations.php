@@ -82,7 +82,7 @@ trait RoleHasRelations
     /**
      * Detach permission from a role.
      *
-     * @param int|\Bican\Roles\Models\Permission $permission
+     * @param int|\Nigam214\RBAC\Models\Permission $permission
      * @return int
      */
     public function detachPermission($permission)
