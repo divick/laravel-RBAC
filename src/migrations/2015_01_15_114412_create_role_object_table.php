@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Str;
 
 class CreateRoleObjectTable extends Migration
 {
@@ -16,8 +17,8 @@ class CreateRoleObjectTable extends Migration
             $object = config("rbac.rbac.${rbacName}.names.object");
             $role = config("rbac.rbac.${rbacName}.names.role");
             $object_role = ($object < $role) ? "${object}_${role}" : "${role}_${object}";
-            $roles = str_plural($role);
-            $objects = str_plural($object);
+            $roles = Str::plural($role);
+            $objects = Str::plural($object);
             Schema::create($object_role, function (Blueprint $table) use($role, $object, $roles, $objects) {
                 $table->increments('id');
                 $table->integer($role . '_id')->unsigned()->index();
@@ -26,7 +27,7 @@ class CreateRoleObjectTable extends Migration
                 $table->foreign($object . '_id')->references('id')->on($objects)->onDelete('cascade');
                 $table->boolean('granted')->default(true);
                 $table->integer(config("rbac.owner.id"))->unsigned();
-                $table->foreign(config("rbac.owner.id"))->references('id')->on(str_plural(config("rbac.owner.model")));
+                $table->foreign(config("rbac.owner.id"))->references('id')->on(Str::plural(config("rbac.owner.model")));
                 $table->timestamps();
             });
         }

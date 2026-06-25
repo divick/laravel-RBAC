@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Str;
 
 class CreatePermissionObjectTable extends Migration
 {
@@ -16,8 +17,8 @@ class CreatePermissionObjectTable extends Migration
             $object = config("rbac.rbac.${rbacName}.names.object");
             $permission = config("rbac.rbac.${rbacName}.names.permission");
             $object_permission = ($object < $permission) ? "${object}_${permission}" : "${permission}_${object}";
-            $objects = str_plural($object);
-            $permissions = str_plural($permission);
+            $objects = Str::plural($object);
+            $permissions = Str::plural($permission);
             Schema::create($object_permission, function (Blueprint $table) use($object, $permission, $objects, $permissions) {
                 $table->increments('id');
                 $table->integer($permission . '_id')->unsigned()->index();
@@ -26,7 +27,7 @@ class CreatePermissionObjectTable extends Migration
                 $table->foreign($object . '_id')->references('id')->on($objects)->onDelete('cascade');
                 $table->boolean('granted')->default(true);
                 $table->integer(config("rbac.owner.id"))->unsigned();
-                $table->foreign(config("rbac.owner.id"))->references('id')->on(str_plural(config("rbac.owner.model")));
+                $table->foreign(config("rbac.owner.id"))->references('id')->on(Str::plural(config("rbac.owner.model")));
                 $table->timestamps();
             });
         }

@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Str;
 
 class CreateRolesTable extends Migration
 {
@@ -13,7 +14,7 @@ class CreateRolesTable extends Migration
     public function up()
     {
         foreach (config('rbac.rbac') as $rbacName => $rbac) {
-            $roles = str_plural(config("rbac.rbac.${rbacName}.names.role"));
+            $roles = Str::plural(config("rbac.rbac.${rbacName}.names.role"));
             Schema::create($roles, function (Blueprint $table) use($roles) {
                 $table->increments('id');
                 $table->string('name');
@@ -22,7 +23,7 @@ class CreateRolesTable extends Migration
                 $table->integer('parent_id')->unsigned()->nullable();
                 $table->foreign('parent_id')->references('id')->on($roles);
                 $table->integer(config("rbac.owner.id"))->unsigned();
-                $table->foreign(config("rbac.owner.id"))->references('id')->on(str_plural(config("rbac.owner.model")));
+                $table->foreign(config("rbac.owner.id"))->references('id')->on(Str::plural(config("rbac.owner.model")));
                 $table->timestamps();
             });
         }
@@ -36,7 +37,7 @@ class CreateRolesTable extends Migration
     public function down()
     {
         foreach (config('rbac.rbac') as $rbacName => $rbac) {
-            $roles = str_plural(config("rbac.rbac.${rbacName}.names.role"));
+            $roles = Str::plural(config("rbac.rbac.${rbacName}.names.role"));
             Schema::drop($roles);
         }
     }

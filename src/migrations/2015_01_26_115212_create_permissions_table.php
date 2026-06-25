@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Str;
 
 class CreatePermissionsTable extends Migration
 {
@@ -13,7 +14,7 @@ class CreatePermissionsTable extends Migration
     public function up()
     {
         foreach (config('rbac.rbac') as $rbacName => $rbac) {
-            $permissions = str_plural(config("rbac.rbac.${rbacName}.names.permission"));
+            $permissions = Str::plural(config("rbac.rbac.${rbacName}.names.permission"));
             Schema::create($permissions, function (Blueprint $table) {
                 $table->increments('id');
                 $table->string('name');
@@ -21,7 +22,7 @@ class CreatePermissionsTable extends Migration
                 $table->string('description')->nullable();
                 $table->string('model')->nullable();
                 $table->integer(config("rbac.owner.id"))->unsigned();
-                $table->foreign(config("rbac.owner.id"))->references('id')->on(str_plural(config("rbac.owner.model")));
+                $table->foreign(config("rbac.owner.id"))->references('id')->on(Str::plural(config("rbac.owner.model")));
                 $table->timestamps();
             });
         }
@@ -35,7 +36,7 @@ class CreatePermissionsTable extends Migration
     public function down()
     {
         foreach (config('rbac.rbac') as $rbacName => $rbac) {
-            $permissions = str_plural(config("rbac.rbac.${rbacName}.names.permission"));
+            $permissions = Str::plural(config("rbac.rbac.${rbacName}.names.permission"));
             Schema::drop($permissions);
         }
     }
